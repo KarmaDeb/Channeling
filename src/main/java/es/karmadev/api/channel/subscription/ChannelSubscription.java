@@ -12,7 +12,7 @@ import java.util.concurrent.ThreadLocalRandom;
  * received under specific circumstances or vice-versa
  */
 @Getter
-public abstract class AChannelSubscription {
+public abstract class ChannelSubscription {
 
     private final long id = ThreadLocalRandom.current().nextLong();
 }

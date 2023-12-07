@@ -1,6 +1,7 @@
 package es.karmadev.api.channel.com;
 
-import es.karmadev.api.channel.IChannel;
+import es.karmadev.api.channel.com.remote.RemoteServer;
+import es.karmadev.api.channel.data.BaseMessage;
 import es.karmadev.api.channel.exception.NetException;
 
 /**
@@ -10,24 +11,23 @@ import es.karmadev.api.channel.exception.NetException;
  * send data to another part of the
  * connection network.
  */
-public interface IBridge {
+public interface Bridge {
 
     /**
-     * Get the connection that originated
-     * the bridge
+     * Get the server currently
+     * owning the bridge.
      *
-     * @return the connection that created the
-     * bridge
+     * @return the server
      */
-    IConnection getOrigin();
+    RemoteServer getServer();
 
     /**
-     * Get the channel in where the data
-     * is sent on this bridge
+     * Get the bridge creation issuer
      *
-     * @return the bridge channel
+     * @return the bridge
+     * issuer
      */
-    IChannel getChannel();
+    Connection getIssuer();
 
     /**
      * Get the connection that receives
@@ -36,23 +36,16 @@ public interface IBridge {
      * @return the connection that receives
      * data
      */
-    IConnection getTarget();
+    Connection getTarget();
 
     /**
-     * Get if the bridge connection
-     * is encrypted
+     * Emit a message through the
+     * bridge
      *
-     * @return if the bridge is encrypted
-     * or not
+     * @param message the message to
+     *                emit
      */
-    boolean isEncrypted();
-
-    /**
-     * Emit a message though the bridge
-     *
-     * @param data the data to send
-     */
-    void emit(final byte[] data);
+    void write(final BaseMessage message);
 
     /**
      * Close the bridge connection

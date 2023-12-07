@@ -1,28 +1,30 @@
 package es.karmadev.api.channel.com;
 
-import es.karmadev.api.channel.com.remote.IRemoteServer;
-import es.karmadev.api.channel.data.BaseMessage;
+import es.karmadev.api.channel.VirtualChannel;
+import es.karmadev.api.channel.com.remote.RemoteServer;
 import es.karmadev.api.channel.exception.NetException;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Represents a connection on a
- * {@link es.karmadev.api.channel.IChannel}
+ * {@link VirtualChannel}
  */
-public interface IConnection {
+public interface Connection {
 
     /**
-     * Write a message on the connection
+     * Get the connection ID
      *
-     * @param message the message to write
+     * @return the connection ID
      */
-    void write(final BaseMessage message);
+    long getId();
 
     /**
      * Get the remote server
      *
      * @return the remote server
      */
-    IRemoteServer getServer();
+    @Nullable
+    RemoteServer getServer();
 
     /**
      * Tries to close the connection. Once this

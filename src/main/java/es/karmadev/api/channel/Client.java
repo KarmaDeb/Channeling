@@ -1,24 +1,18 @@
 package es.karmadev.api.channel;
 
-import es.karmadev.api.channel.com.IConnection;
-import es.karmadev.api.channel.future.ConnectionFuture;
-import es.karmadev.api.channel.subscription.AChannelSubscription;
-import es.karmadev.api.channel.subscription.event.NetworkEvent;
+import es.karmadev.api.channel.com.Connection;
+import es.karmadev.api.channel.com.remote.RemoteServer;
+import es.karmadev.api.channel.subscription.Subscriptor;
 
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
+import java.util.concurrent.CompletableFuture;
 
 /**
- * Represents a client
+ * Represents a client.
+ * A client also represents a connection
  */
-public interface IClient {
-
-    /**
-     * Get the client ID
-     *
-     * @return the client ID
-     */
-    long getId();
+public interface Client extends Subscriptor, Connection {
 
     /**
      * Connect the client to a server
@@ -27,7 +21,7 @@ public interface IClient {
      * @param port the server port
      * @return the connection task
      */
-    default ConnectionFuture connect(final String address, final int port) {
+    default CompletableFuture<RemoteServer> connect(final String address, final int port) {
         InetSocketAddress sa = new InetSocketAddress(address, port);
         return connect(sa, true);
     }
@@ -38,7 +32,7 @@ public interface IClient {
      * @param address the server address
      * @return the connection task
      */
-    default ConnectionFuture connect(final SocketAddress address) {
+    default CompletableFuture<RemoteServer> connect(final SocketAddress address) {
         return connect(address, true);
     }
 
@@ -51,7 +45,7 @@ public interface IClient {
      *               bridging
      * @return the connection task
      */
-    default ConnectionFuture connect(final String address, final int port, final boolean bridge) {
+    default CompletableFuture<RemoteServer> connect(final String address, final int port, final boolean bridge) {
         InetSocketAddress sa = new InetSocketAddress(address, port);
         return connect(sa, bridge);
     }
@@ -64,7 +58,7 @@ public interface IClient {
      *               bridging
      * @return the connection task
      */
-    ConnectionFuture connect(final SocketAddress address, final boolean bridge);
+    CompletableFuture<RemoteServer> connect(final SocketAddress address, final boolean bridge);
 
     /**
      * Get if the client is connected
@@ -75,13 +69,6 @@ public interface IClient {
     boolean isConnected();
 
     /**
-     * Get the client connection
-     *
-     * @return the client connection
-     */
-    IConnection getConnection();
-
-    /**
      * Get if the connection supports bridging.
      * Bridging allows two connections to be
      * directly connected through a virtual channel
@@ -89,26 +76,4 @@ public interface IClient {
      * @return if the connection supports bridging
      */
     boolean supportsBridging();
-
-    /**
-     * Add a subscription to the client.
-     *
-     * @param subscription the subscription to add
-     */
-    void subscribe(final AChannelSubscription subscription);
-
-    /**
-     * Remove a subscriptor from the
-     * client
-     *
-     * @param subscription the subscription
-     */
-    void unsubscribe(final AChannelSubscription subscription);
-
-    /**
-     * Handle an event for the client
-     *
-     * @param event the event to handle
-     */
-    void handle(final NetworkEvent event);
 }

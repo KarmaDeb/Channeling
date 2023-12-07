@@ -13,14 +13,14 @@ public interface Subscriptor {
      *
      * @param subscription the subscription to add
      */
-    void subscribe(final AChannelSubscription subscription);
+    void subscribe(final ChannelSubscription subscription);
 
     /**
      * Remove a subscription
      *
      * @param subscription the subscription to remove
      */
-    void unsubscribe(final AChannelSubscription subscription);
+    void unsubscribe(final ChannelSubscription subscription);
 
     /**
      * Handle an event
