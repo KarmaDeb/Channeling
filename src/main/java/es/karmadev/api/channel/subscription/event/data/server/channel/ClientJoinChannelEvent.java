@@ -1,4 +1,4 @@
-package es.karmadev.api.channel.subscription.event.data.channel;
+package es.karmadev.api.channel.subscription.event.data.server.channel;
 
 /*
  * Copyright 2023 KarmaDev
@@ -20,51 +20,49 @@ package es.karmadev.api.channel.subscription.event.data.channel;
  */
 
 import es.karmadev.api.channel.VirtualChannel;
+import es.karmadev.api.channel.com.remote.RemoteClient;
 import es.karmadev.api.channel.data.BaseMessage;
 import es.karmadev.api.channel.subscription.event.Cancellable;
 import es.karmadev.api.channel.subscription.event.NetworkEvent;
 import lombok.Getter;
-import lombok.NonNull;
 import lombok.Setter;
 
 /**
- * Channel message emit event
+ * This event gets fired when a
+ * remote client joins a channel
  */
-public class ChannelEmitEvent implements NetworkEvent, Cancellable {
+@Getter
+public class ClientJoinChannelEvent implements NetworkEvent, Cancellable {
 
-    @Getter
+    private final RemoteClient client;
     private final VirtualChannel channel;
-    private BaseMessage message;
-    @Getter @Setter
+    private final BaseMessage message;
+
+    @Setter
     private boolean cancelled;
 
     /**
      * Initialize the event
      *
-     * @param channel the channel in where the message
-     *                will be sent
-     * @param message the message that is being sent
+     * @param client the client joining the channel
+     * @param channel the channel the client is joining
+     * @param message the message used to join the channel
      */
-    public ChannelEmitEvent(final @NonNull VirtualChannel channel, final @NonNull BaseMessage message) {
+    public ClientJoinChannelEvent(final RemoteClient client, final VirtualChannel channel, final BaseMessage message) {
+        this.client = client;
         this.channel = channel;
         this.message = message.clone();
     }
 
     /**
-     * Get the message
+     * Get the message used to join
+     * the channel
      *
-     * @return the message
+     * @return the join message
+     *
+     *
      */
     public BaseMessage getMessage() {
-        return message.clone();
-    }
-
-    /**
-     * Set the message
-     *
-     * @param message the message
-     */
-    public void setMessage(final @NonNull BaseMessage message) {
-        this.message = message.clone();
+        return this.message.clone();
     }
 }

@@ -1,5 +1,24 @@
 package es.karmadev.api.channel;
 
+/*
+ * Copyright 2023 KarmaDev
+ *
+ * This file is part of Channels.
+ *
+ * Channels is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Channels is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Channels. If not, see <http://www.gnu.org/licenses/>.
+ */
+
 import es.karmadev.api.channel.com.Connection;
 import es.karmadev.api.channel.com.remote.RemoteServer;
 import es.karmadev.api.channel.subscription.Subscriptor;
@@ -21,7 +40,7 @@ public interface Client extends Subscriptor, Connection {
      * @param port the server port
      * @return the connection task
      */
-    default CompletableFuture<RemoteServer> connect(final String address, final int port) {
+    default CompletableFuture<? extends RemoteServer> connect(final String address, final int port) {
         InetSocketAddress sa = new InetSocketAddress(address, port);
         return connect(sa, true);
     }
@@ -32,7 +51,7 @@ public interface Client extends Subscriptor, Connection {
      * @param address the server address
      * @return the connection task
      */
-    default CompletableFuture<RemoteServer> connect(final SocketAddress address) {
+    default CompletableFuture<? extends RemoteServer> connect(final SocketAddress address) {
         return connect(address, true);
     }
 
@@ -45,7 +64,7 @@ public interface Client extends Subscriptor, Connection {
      *               bridging
      * @return the connection task
      */
-    default CompletableFuture<RemoteServer> connect(final String address, final int port, final boolean bridge) {
+    default CompletableFuture<? extends RemoteServer> connect(final String address, final int port, final boolean bridge) {
         InetSocketAddress sa = new InetSocketAddress(address, port);
         return connect(sa, bridge);
     }
@@ -58,7 +77,7 @@ public interface Client extends Subscriptor, Connection {
      *               bridging
      * @return the connection task
      */
-    CompletableFuture<RemoteServer> connect(final SocketAddress address, final boolean bridge);
+    CompletableFuture<? extends RemoteServer> connect(final SocketAddress address, final boolean bridge);
 
     /**
      * Get if the client is connected

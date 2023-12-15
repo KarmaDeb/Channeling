@@ -1,4 +1,4 @@
-package es.karmadev.api.channel.subscription.event.data.channel;
+package es.karmadev.api.channel.subscription.event.data.server;
 
 /*
  * Copyright 2023 KarmaDev
@@ -19,7 +19,7 @@ package es.karmadev.api.channel.subscription.event.data.channel;
  * along with Channels. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import es.karmadev.api.channel.VirtualChannel;
+import es.karmadev.api.channel.com.Remittent;
 import es.karmadev.api.channel.data.BaseMessage;
 import es.karmadev.api.channel.subscription.event.Cancellable;
 import es.karmadev.api.channel.subscription.event.NetworkEvent;
@@ -28,25 +28,27 @@ import lombok.NonNull;
 import lombok.Setter;
 
 /**
- * Channel message emit event
+ * This event is fired when the
+ * server is requested to forward
+ * a message
  */
-public class ChannelEmitEvent implements NetworkEvent, Cancellable {
+public class MessageForwardEvent implements NetworkEvent, Cancellable {
 
-    @Getter
-    private final VirtualChannel channel;
+    @NonNull @Getter
+    private final Remittent remittent;
+    @NonNull
     private BaseMessage message;
     @Getter @Setter
-    private boolean cancelled;
+    private boolean isCancelled;
 
     /**
      * Initialize the event
      *
-     * @param channel the channel in where the message
-     *                will be sent
-     * @param message the message that is being sent
+     * @param remittent the message remittent
+     * @param message the message
      */
-    public ChannelEmitEvent(final @NonNull VirtualChannel channel, final @NonNull BaseMessage message) {
-        this.channel = channel;
+    public MessageForwardEvent(final @NonNull Remittent remittent, final BaseMessage message) {
+        this.remittent = remittent;
         this.message = message.clone();
     }
 
@@ -64,7 +66,7 @@ public class ChannelEmitEvent implements NetworkEvent, Cancellable {
      *
      * @param message the message
      */
-    public void setMessage(final @NonNull BaseMessage message) {
+    public void setMessage(final BaseMessage message) {
         this.message = message.clone();
     }
 }

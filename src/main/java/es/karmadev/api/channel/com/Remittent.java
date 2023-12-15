@@ -1,4 +1,4 @@
-package es.karmadev.api.channel.exception.connection;
+package es.karmadev.api.channel.com;
 
 /*
  * Copyright 2023 KarmaDev
@@ -19,30 +19,12 @@ package es.karmadev.api.channel.exception.connection;
  * along with Channels. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import es.karmadev.api.channel.exception.NetException;
-
 /**
- * This exception is raised when
- * a close operation fails to complete.
+ * Represents an element that
+ * is a remittent, which is nothing
+ * but an extension of an object which
+ * can receive and send messages.
  */
-public class CloseException extends NetException {
+public interface Remittent {
 
-    /**
-     * Initialize the exception
-     *
-     * @param message the error message
-     */
-    public CloseException(final String message) {
-        super(message);
-    }
-
-    /**
-     * Initialize the exception
-     *
-     * @param error the error that caused this
-     *              exception
-     */
-    public CloseException(final Throwable error) {
-        super(error);
-    }
 }

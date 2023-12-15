@@ -1,4 +1,4 @@
-package es.karmadev.api.channel.exception.connection;
+package es.karmadev.api.channel.subscription.event.data.server.channel;
 
 /*
  * Copyright 2023 KarmaDev
@@ -19,30 +19,19 @@ package es.karmadev.api.channel.exception.connection;
  * along with Channels. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import es.karmadev.api.channel.exception.NetException;
+import es.karmadev.api.channel.VirtualChannel;
+import es.karmadev.api.channel.com.remote.RemoteClient;
+import es.karmadev.api.channel.subscription.event.NetworkEvent;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 /**
- * This exception is raised when
- * a close operation fails to complete.
+ * This event gets fired when a
+ * client leaves a channel
  */
-public class CloseException extends NetException {
+@RequiredArgsConstructor @Getter
+public class ClientLeaveChannelEvent implements NetworkEvent {
 
-    /**
-     * Initialize the exception
-     *
-     * @param message the error message
-     */
-    public CloseException(final String message) {
-        super(message);
-    }
-
-    /**
-     * Initialize the exception
-     *
-     * @param error the error that caused this
-     *              exception
-     */
-    public CloseException(final Throwable error) {
-        super(error);
-    }
+    private final RemoteClient client;
+    private final VirtualChannel channel;
 }
